@@ -1,14 +1,16 @@
-_G.Style = {
-	Title = "Title",
-	Background_Color = Color3.fromRGB(24, 24, 24),
-	Border_Color = Color3.fromRGB(143, 143, 143),
-	Button_Background_Color = Color3.fromRGB(30, 30, 30),
-	Button_Background_Color_2 = Color3.fromRGB(66, 66, 66),
-	Button_Background_Color_3 = Color3.fromRGB(66, 94, 255),
-	Button_Border_Color = Color3.fromRGB(53, 53, 53),
-	Option_Background_Color = Color3.fromRGB(45, 45, 45),
-	Slider_Background_Color = Color3.fromRGB(25, 25, 25),
-}
+if _G.Style == nil then
+	_G.Style = {
+		Title = "Title",
+		Background_Color = Color3.fromRGB(24, 24, 24),
+		Border_Color = Color3.fromRGB(143, 143, 143),
+		Button_Background_Color = Color3.fromRGB(30, 30, 30),
+		Button_Background_Color_2 = Color3.fromRGB(66, 66, 66),
+		Button_Background_Color_3 = Color3.fromRGB(66, 94, 255),
+		Button_Border_Color = Color3.fromRGB(53, 53, 53),
+		Option_Background_Color = Color3.fromRGB(45, 45, 45),
+		Slider_Background_Color = Color3.fromRGB(25, 25, 25),
+	}
+end
 
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrameContainer = Instance.new("Frame")
@@ -661,44 +663,8 @@ libary.AddSlider = function (setting)
 	return SliderValueLabel
 end
 
-local Group = libary.AddGroup({
-	Name = "General 1",
-	Visible = true,
-	Image = "rbxassetid://10879103424",
-	Scale = 0,
-})
-local Dropdown = libary.AddDropdown({
-	Text = "General",
-	Parent = Group,
-	Option = {"Pig","Cow"},
-	Scale = 0,
-})
-local TextLable = libary.AddTextLabel({
-	Text = 'Count<font color = "rgb(255,0,100)">3</font>',
-	Size = 10,
-	TextXAlignment = Enum.TextXAlignment.Center,
-	Parent = Group,
-})
-local Slider = libary.AddSlider({
-	Max = 10,
-	Parent = Group,
-})
-local TextBox = libary.AddTextBox({
-	Text = "Value",
-	PlaceholderText = "Number",
-	Parent = Group,
-})
-local toggle = libary.AddToggle({
-	Text = "General",
-	Parent = Group,
-})
-toggle.Button.MouseButton1Down:Connect(function()
-	wait()
-	if toggle.db.Value == true then
-		print("TRUE :",Slider.Text)
-	else
-		print("FLSE")
-	end
+CloseButton.MouseButton1Down:Connect(function()
+	ScreenGui:Destroy()
 end)
 
 return libary
