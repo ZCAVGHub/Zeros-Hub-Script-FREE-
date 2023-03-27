@@ -39,6 +39,9 @@ MainFrameContainer.Parent = ScreenGui
 MainFrameContainer.BackgroundColor3 = _G.Style["Background_Color"]
 MainFrameContainer.Position = UDim2.new(0.0998742133, 0, 0.237113416, 0)
 MainFrameContainer.Size = UDim2.new(0, 535, 0, 305)
+
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainFrameContainer
 ---------------------------------------------------
 local Prop = Instance.new("Frame")
 local Prop_2 = Instance.new("Frame")
@@ -123,9 +126,6 @@ UIS.InputChanged:Connect(function(input)
 	end
 end)
 
-UICorner.CornerRadius = UDim.new(0, 10)
-UICorner.Parent = MainFrameContainer
-
 HubLabel.Name = "HubLabel"
 HubLabel.Parent = MainFrameContainer
 HubLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -139,7 +139,7 @@ HubLabel.TextSize = 16.000
 HubLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 Frame.Parent = HubLabel
-Frame.BackgroundColor3 = Color3.fromRGB(47, 47, 47)
+Frame.BackgroundColor3 = _G.Style["Button_Background_Color"]
 Frame.Position = UDim2.new(0.882692337, 0, 0.166666672, 0)
 Frame.Size = UDim2.new(0, 45, 0, 19)
 local UIStroke = Instance.new("UIStroke", Frame)
