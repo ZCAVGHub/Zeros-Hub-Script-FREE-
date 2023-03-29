@@ -1,5 +1,5 @@
 local whitlist = {
-  ["123"] = {hwdi="HWDI_NUMBERX"}
+  ["123"] = {hwid="HWID_NUMBERX"}
 }
 
 return whitlist
