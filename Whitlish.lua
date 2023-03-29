@@ -1,5 +1,5 @@
 local whitlist = {
-  ["none"] = {hwid="none"},
+  ["none"] = {hwid="none"}
 }
 
 return whitlist
