@@ -1,1 +1,686 @@
+local libary = {}
+
+function libary:Create (NAME,THEME)
+	
+	THEME = THEME or {
+		MainColor = Color3.fromRGB(0, 255, 179),
+		BackgroundColor = Color3.fromRGB(18, 18, 18),
+		BackgroundColor2 = Color3.fromRGB(33, 33, 33),
+	}
+	
+	local Libaryv2 = Instance.new("ScreenGui")
+	local MainContainer = Instance.new("Frame")
+	local TextLabel = Instance.new("TextLabel")
+	local BackgroundContainer = Instance.new("ImageLabel")
+	local TopBar = Instance.new("Frame")
+	local UIListLayout = Instance.new("UIListLayout")
+	
+	local function Drag (frame)
+		local UIS = game:GetService('UserInputService')
+		local dragToggle = nil
+		local dragSpeed = 0.25
+		local dragStart = nil
+		local startPos = nil
+		local function updateInput(input)
+			local delta = input.Position - dragStart
+			local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+				startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+			game:GetService('TweenService'):Create(frame, TweenInfo.new(dragSpeed), {Position = position}):Play()
+
+		end
+		frame.InputBegan:Connect(function(input)
+			if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
+				dragToggle = true
+				dragStart = input.Position
+				startPos = frame.Position
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						dragToggle = false
+					end
+				end)
+			end
+		end)
+		UIS.InputChanged:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+				if dragToggle then
+					updateInput(input)
+				end
+			end
+		end)
+	end
+	Drag(MainContainer)
+
+	Libaryv2.Name = NAME or "Libary v2"	
+	Libaryv2.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+	Libaryv2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	MainContainer.Name = "MainContainer"
+	MainContainer.Parent = Libaryv2
+	MainContainer.BackgroundColor3 = THEME["BackgroundColor"]
+	MainContainer.BorderColor3 = THEME["MainColor"]
+	MainContainer.Position = UDim2.new(0.220108688, 0, 0.114982575, 0)
+	MainContainer.Size = UDim2.new(0, 412, 0, 441)
+
+	TextLabel.Parent = MainContainer
+	TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	TextLabel.BackgroundTransparency = 1.000
+	TextLabel.Position = UDim2.new(0.0202479679, 0, 0, 0)
+	TextLabel.Size = UDim2.new(0, 170, 0, 23)
+	TextLabel.Font = Enum.Font.Code
+	TextLabel.Text = NAME or "Title"	
+	TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TextLabel.TextSize = 14.000
+	TextLabel.RichText = true
+	TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	BackgroundContainer.Name = "BackgroundContainer"
+	BackgroundContainer.Parent = MainContainer
+	BackgroundContainer.BackgroundColor3 = THEME["BackgroundColor"]
+	BackgroundContainer.BorderColor3 = THEME["MainColor"]
+	BackgroundContainer.Position = UDim2.new(0.0202479959, 0, 0.0514748767, 0)
+	BackgroundContainer.Size = UDim2.new(0, 395, 0, 408)
+	BackgroundContainer.Image = "rbxassetid://10052054503"
+	BackgroundContainer.ImageColor3 = Color3.fromRGB(8, 8, 8)
+
+	TopBar.Name = "TopBar"
+	TopBar.Parent = BackgroundContainer
+	TopBar.BackgroundColor3 = THEME["BackgroundColor2"]
+	TopBar.BorderColor3 = THEME["MainColor"]
+	TopBar.Position = UDim2.new(-0.000825365307, 0, 1.72596356e-05, 0)
+	TopBar.Size = UDim2.new(0, 395, 0, 23)
+
+	UIListLayout.Parent = TopBar
+	UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+	local Object = {}
+	local Tween = game:GetService("TweenService")
+	function Object:SetTitle (TITLE)
+		TextLabel.Text = TITLE or "Title"
+	end
+	function Object:NewSelection (NAME,VISIBLE)
+		local Selection = Instance.new("Frame")
+		local LeftSelection = Instance.new("ScrollingFrame")
+		local UIListLayout = Instance.new("UIListLayout")
+		local RightSelection = Instance.new("ScrollingFrame")
+		local UIListLayout_2 = Instance.new("UIListLayout")
+		local Selection1Button = Instance.new("TextButton")
+
+		Selection.Name = "Selection"
+		Selection.Parent = BackgroundContainer
+		Selection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Selection.BackgroundTransparency = 1.000
+		Selection.Position = UDim2.new(0.0227848105, 0, 0.0560904592, 0)
+		Selection.Size = UDim2.new(0, 376, 0, 370)
+		Selection.Visible = VISIBLE or false
+
+		LeftSelection.Name = "LeftSelection"
+		LeftSelection.Parent = Selection
+		LeftSelection.Active = true
+		LeftSelection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		LeftSelection.BackgroundTransparency = 1.000
+		LeftSelection.Position = UDim2.new(0.0239361711, 0, 0.0384980068, 0)
+		LeftSelection.Size = UDim2.new(0, 184, 0, 363)
+		LeftSelection.CanvasSize = UDim2.new(0, 0, 0, 0)
+		LeftSelection.ScrollBarThickness = 0
+
+		UIListLayout.Parent = LeftSelection
+		UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		UIListLayout.Padding = UDim.new(0, 8)
+
+		RightSelection.Name = "RightSelection"
+		RightSelection.Parent = Selection
+		RightSelection.Active = true
+		RightSelection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		RightSelection.BackgroundTransparency = 1.000
+		RightSelection.Position = UDim2.new(0.535096049, 0, 0.0384980068, 0)
+		RightSelection.Size = UDim2.new(0, 184, 0, 363)
+		RightSelection.ScrollBarThickness = 0
+
+		UIListLayout_2.Parent = RightSelection
+		UIListLayout_2.HorizontalAlignment = Enum.HorizontalAlignment.Center
+		UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+		UIListLayout_2.Padding = UDim.new(0, 8)
+
+		Selection1Button.Name = "Selection1Button"
+		Selection1Button.Parent = TopBar
+		Selection1Button.BackgroundColor3 = THEME["MainColor"]
+		Selection1Button.BorderSizePixel = 0
+		Selection1Button.Size = UDim2.new(0, string.len(NAME)*10, 0, 23)
+		Selection1Button.Font = Enum.Font.Code
+		Selection1Button.Text = NAME
+		Selection1Button.TextColor3 = Color3.fromRGB(0, 0, 0)
+		Selection1Button.TextSize = 13.000
+		
+		if VISIBLE == true then
+			Tween:Create(Selection1Button,TweenInfo.new(0.2),{BackgroundTransparency = 0}):Play()
+			Tween:Create(Selection1Button,TweenInfo.new(0.2),{TextColor3 = Color3.fromRGB(0, 0, 0)}):Play()
+		else
+			Tween:Create(Selection1Button,TweenInfo.new(0.2),{BackgroundTransparency = 1}):Play()
+			Tween:Create(Selection1Button,TweenInfo.new(0.2),{TextColor3 = Color3.fromRGB(163, 163, 163)}):Play()
+		end
+		Selection1Button.MouseButton1Down:Connect(function()
+			for _,v in pairs(BackgroundContainer:GetChildren()) do
+				if v.Name ~= "TopBar" then
+					v.Visible = false
+				end
+			end
+			for _,v in pairs(TopBar:GetChildren()) do
+				if v.Name ~= "UIListLayout" then
+					Tween:Create(v,TweenInfo.new(0.2),{BackgroundTransparency = 1}):Play()
+					Tween:Create(v,TweenInfo.new(0.2),{TextColor3 = Color3.fromRGB(163, 163, 163)}):Play()
+				end
+			end
+			Selection.Visible = true
+			Tween:Create(Selection1Button,TweenInfo.new(0.2),{BackgroundTransparency = 0}):Play()
+			Tween:Create(Selection1Button,TweenInfo.new(0.2),{TextColor3 = Color3.fromRGB(0, 0, 0)}):Play()
+		end)
+		local Properties = {}
+		function Properties:SetCanvasSize (Left_or_Rigth,Size)
+			Left_or_Rigth.CanvasSize = UDim2.new(0, 0, Size, 0)
+		end
+		function Properties:SetName (Name)
+			Selection1Button.Text = Name
+		end
+		function Properties:GetName ()
+			return Selection1Button.Text
+		end
+		function Properties:SetVisible (Bool)
+			Selection.Visible = Bool or false
+		end
+		function Properties:Left ()
+			return LeftSelection
+		end
+		function Properties:Right ()
+			return RightSelection
+		end
+		function Properties:NewGroup (PARENT)
+			local Group = Instance.new("Frame")
+			local UIListLayout = Instance.new("UIListLayout")
+			local Line = Instance.new("Frame")
+			local Frame = Instance.new("Frame")
+
+			Line.Name = "Line"
+			Line.Parent = Group
+			Line.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Line.BackgroundTransparency = 1.000
+			Line.Position = UDim2.new(0.00543478271, 0, 0.00540540554, 0)
+			Line.Size = UDim2.new(0, 184, 0, 7)
+			Frame.Parent = Line
+			Frame.BackgroundColor3 = THEME["MainColor"]
+			Frame.BorderSizePixel = 0
+			Frame.Size = UDim2.new(0, 184, 0, 1)
+			Group.Name = "Group"
+			Group.Parent = PARENT
+			Group.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+			Group.BorderColor3 = Color3.fromRGB(53, 53, 53)
+			Group.BorderMode = Enum.BorderMode.Inset
+			Group.ClipsDescendants = true
+			Group.Size = UDim2.new(0, 184, 0, 177)
+			UIListLayout.Parent = Group
+			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			spawn(function()
+				game:GetService("RunService").Stepped:Connect(function()
+					local size_y = 1
+					for _,v in pairs(Group:GetChildren()) do
+						pcall(function()
+							size_y = size_y+v.Size.Y.Offset
+						end)
+					end
+					Group.Size = UDim2.new(0, 1842, 0, size_y+2)
+				end)
+			end)
+			local Object2 = {}
+			function Object2:NewTextLabel (TEXT, STYLE)
+				local TextLabel = Instance.new("TextLabel")
+				TextLabel.Parent = Group
+				TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				TextLabel.BackgroundTransparency = 1.000
+				TextLabel.Size = UDim2.new(0, 184, 0, 15)
+				TextLabel.Font = Enum.Font.Code
+				if STYLE ~= Enum.TextXAlignment.Center then
+					TextLabel.Text = ("   "..TEXT.."   ") or "TextLabel"
+				else
+					TextLabel.Text = TEXT or "TextLabel"
+				end
+				TextLabel.TextColor3 = Color3.fromRGB(163, 163, 163)
+				TextLabel.TextSize = 12.000
+				TextLabel.TextXAlignment = STYLE or Enum.TextXAlignment.Center
+
+				local Properties = {}
+
+				function Properties:SetText (Text)
+					TextLabel.Text = Text or ""
+				end
+				function Properties:GetText ()
+					return TextLabel.Text
+				end
+				return Properties
+			end
+			function Object2:NewButton (TEXT,FUNCTION)
+				local Button = Instance.new("Frame")
+				local TextButton = Instance.new("TextButton")
+
+				Button.Name = TEXT
+				Button.Parent = Group
+				Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Button.BackgroundTransparency = 1.000
+				Button.Position = UDim2.new(0, 0, 0.312949628, 0)
+				Button.Size = UDim2.new(0, 184, 0, 26)
+
+				TextButton.Parent = Button
+				TextButton.BackgroundColor3 = THEME["BackgroundColor"]
+				TextButton.BorderColor3 = Color3.fromRGB(52, 52, 52)
+				TextButton.Position = UDim2.new(0.0275652166, 0, 0.100000001, 0)
+				TextButton.Size = UDim2.new(0, 172, 0, 19)
+				TextButton.Font = Enum.Font.Code
+				TextButton.Text = TEXT or "Button"
+				TextButton.BorderMode = Enum.BorderMode.Inset
+				TextButton.TextColor3 = Color3.fromRGB(108, 108, 108)
+				TextButton.TextSize = 11.000
+				TextButton.MouseButton1Down:Connect(function()
+					pcall(FUNCTION)
+				end)
+
+				local Properties = {}
+
+				function Properties:SetText (Text)
+					TextButton.Text = Text or ""
+				end
+				function Properties:GetText ()
+					return TextButton.Text
+				end
+				return Properties
+			end
+			function Object2:NewDropDown (TEXT,TABLE,NONE)
+				local Dropdown = Instance.new("Frame")
+				local Frame = Instance.new("Frame")
+				local TextLabel = Instance.new("TextLabel")
+				local TextButton = Instance.new("TextButton")
+				local TextLabel_2 = Instance.new("TextLabel")
+				local ImageLabel = Instance.new("ImageLabel")
+				local Select = Instance.new("Frame")
+				local ScrollingFrame = Instance.new("ScrollingFrame")
+				local UIListLayout = Instance.new("UIListLayout")
+
+				Dropdown.Name = "Dropdown"
+				Dropdown.Parent = Group
+				Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Dropdown.BackgroundTransparency = 1.000
+				Dropdown.Position = UDim2.new(0, 0, 0.101928376, 0)
+				Dropdown.Size = UDim2.new(0, 184, 0, 42)
+
+				Frame.Parent = Dropdown
+				Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Frame.BackgroundTransparency = 1.000
+				Frame.Size = UDim2.new(0, 184, 0, 37)
+
+				TextLabel.Parent = Frame
+				TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				TextLabel.BackgroundTransparency = 1.000
+				TextLabel.Position = UDim2.new(0.0489130467, 0, -0.00859950855, 0)
+				TextLabel.Size = UDim2.new(0, 152, 0, 19)
+				TextLabel.Font = Enum.Font.Code
+				TextLabel.Text = TEXT
+				TextLabel.TextColor3 = Color3.fromRGB(163, 163, 163)
+				TextLabel.TextSize = 11.000
+				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+				TextButton.Parent = Frame
+				TextButton.BackgroundColor3 = THEME["BackgroundColor"]
+				TextButton.BorderColor3 = Color3.fromRGB(52, 52, 52)
+				TextButton.Position = UDim2.new(0.0326086953, 0, 0.486486495, 0)
+				TextButton.Size = UDim2.new(0, 172, 0, 19)
+				TextButton.Font = Enum.Font.SourceSans
+				TextButton.Text = ""
+				TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+				TextButton.TextSize = 14.000
+
+				TextLabel_2.Parent = Frame
+				TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				TextLabel_2.BackgroundTransparency = 1.000
+				TextLabel_2.Position = UDim2.new(0.0869565234, 0, 0.477887124, 0)
+				TextLabel_2.Size = UDim2.new(0, 145, 0, 19)
+				TextLabel_2.Font = Enum.Font.Code
+				TextLabel_2.Text = NONE or"none"
+				TextLabel_2.TextColor3 = Color3.fromRGB(108, 108, 108)
+				TextLabel_2.TextSize = 10.000
+				TextLabel_2.TextXAlignment = Enum.TextXAlignment.Left
+
+				ImageLabel.Parent = Frame
+				ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				ImageLabel.BackgroundTransparency = 1.000
+				ImageLabel.Position = UDim2.new(0.871172547, 0, 0.504914165, 0)
+				ImageLabel.Rotation = 90.000
+				ImageLabel.Size = UDim2.new(0, 15, 0, 17)
+				ImageLabel.Image = "rbxassetid://13013905842"
+				ImageLabel.ImageColor3 = Color3.fromRGB(108, 108, 108)
+
+				Select.Name = "Select"
+				Select.Parent = Dropdown
+				Select.BackgroundColor3 = THEME["BackgroundColor"]
+				Select.BorderColor3 = Color3.fromRGB(52, 52, 52)
+				Select.Position = UDim2.new(0.0326086953, 0, 0.256703764, 0)
+				Select.Size = UDim2.new(0, 172, 0, 101)
+				Select.Visible = false
+
+				ScrollingFrame.Parent = Select
+				ScrollingFrame.Active = true
+				ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				ScrollingFrame.BackgroundTransparency = 1.000
+				ScrollingFrame.BorderSizePixel = 0
+				ScrollingFrame.Position = UDim2.new(0.0281311739, 0, 0.0773236901, 0)
+				ScrollingFrame.Size = UDim2.new(0, 167, 0, 93)
+				ScrollingFrame.ScrollBarThickness = 0
+
+				UIListLayout.Parent = ScrollingFrame
+				UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+				UIListLayout.Padding = UDim.new(0, 3)
+
+				local val = NONE or nil
+				local tween
+				local function reset(tb)
+					for _,v in pairs(ScrollingFrame:GetChildren()) do
+						if v.ClassName == "TextButton" then
+							v:Destroy()
+						end
+					end
+					for _,v in pairs(tb) do
+						local TextButton_2 = Instance.new("TextButton")
+						TextButton_2.Parent = ScrollingFrame
+						TextButton_2.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+						TextButton_2.BorderColor3 = Color3.fromRGB(94, 94, 94)
+						TextButton_2.Position = UDim2.new(0, 0, -1.64073001e-07, 0)
+						TextButton_2.Size = UDim2.new(0, 161, 0, 16)
+						TextButton_2.Font = Enum.Font.Code
+						TextButton_2.TextColor3 = Color3.fromRGB(163, 163, 163)
+						TextButton_2.TextSize = 10.000
+						TextButton_2.Text = v
+						TextButton_2.BorderMode = Enum.BorderMode.Inset
+						TextButton_2.MouseButton1Down:Connect(function()
+							pcall(function()	
+								val = v
+								if tween then
+									tween:Cancal()
+								end
+								TextLabel_2.Text = tostring(v)
+								Select.Visible = false
+								tween = Tween:Create(Dropdown,TweenInfo.new(0.2),{Size = UDim2.new(0, 184, 0, 42)}):Play()
+							end)
+						end)
+					end
+				end
+				reset(TABLE)
+				local Properties = {}
+				function Properties:GetValue ()
+					return val
+				end
+				function Properties:ResetTable (Table)
+					reset(Table)
+				end
+				function Properties:SetText (Text)
+					TextLabel.Text = Text or ""
+				end
+				function Properties:GetText (Text)
+					return TextLabel.Text
+				end
+				function Properties:SetCanvasSize (Size)
+					ScrollingFrame.CanvasSize = UDim2.new(0, 0, Size, 0)
+				end
+				TextButton.MouseButton1Down:Connect(function()
+					if tween then
+						tween:Cancal()
+					end
+					if Select.Visible == false then
+						tween = Tween:Create(Dropdown,TweenInfo.new(0.2),{Size = UDim2.new(0, 184, 0, 139)}):Play()
+						delay(.2, function()
+							Select.Visible = true
+						end)
+					else
+						Select.Visible = false
+						tween = Tween:Create(Dropdown,TweenInfo.new(0.2),{Size = UDim2.new(0, 184, 0, 42)}):Play()
+					end
+				end)
+				return Properties
+			end
+			function Object2:NewSlider (TEXT, MIN, MAX)
+				local Slider = Instance.new("Frame")
+				local TextButton = Instance.new("TextButton")
+				local Frame = Instance.new("Frame")
+				local TextLabel = Instance.new("TextLabel")
+				local TextLabel_2 = Instance.new("TextLabel")
+
+				Slider.Name = "Slider"
+				Slider.Parent = Group
+				Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Slider.BackgroundTransparency = 1.000
+				Slider.Position = UDim2.new(0, 0, 0.478417277, 0)
+				Slider.Size = UDim2.new(0, 184, 0, 40)
+
+				TextButton.Parent = Slider
+				TextButton.BackgroundColor3 = THEME["BackgroundColor"]
+				TextButton.BorderColor3 = Color3.fromRGB(52, 52, 52)
+				TextButton.Position = UDim2.new(0.028, 0,0.45, 0)
+				TextButton.Size = UDim2.new(0, 129,0, 19)
+				TextButton.Font = Enum.Font.Code
+				TextButton.Text = ""
+				TextButton.TextColor3 = Color3.fromRGB(108, 108, 108)
+				TextButton.TextSize = 10.000
+
+				Frame.Parent = TextButton
+				Frame.BackgroundColor3 = THEME["MainColor"]
+				Frame.BorderSizePixel = 0
+				Frame.Position = UDim2.new(0, 1, 0, 1)
+				Frame.Size = UDim2.new(0, 1, 0, 17)
+
+				TextLabel.Parent = Slider
+				TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				TextLabel.BackgroundTransparency = 1.000
+				TextLabel.Position = UDim2.new(0.0489130467, 0, -0.00859950855, 0)
+				TextLabel.Size = UDim2.new(0, 152, 0, 19)
+				TextLabel.Font = Enum.Font.Code
+				TextLabel.Text = TEXT
+				TextLabel.TextColor3 = Color3.fromRGB(163, 163, 163)
+				TextLabel.TextSize = 12.000
+				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+				TextLabel_2.Parent = Slider
+				TextLabel_2.BackgroundColor3 = THEME["BackgroundColor"]
+				TextLabel_2.Position = UDim2.new(0.761, 0,0.45, 0)
+				TextLabel_2.Size = UDim2.new(0, 37,0, 19)
+				TextLabel_2.Font = Enum.Font.Code
+				TextLabel_2.Text = MIN
+				TextLabel_2.BorderColor3 = Color3.fromRGB(52, 52, 52)
+				TextLabel_2.BorderMode = Enum.BorderMode.Inset
+				TextLabel_2.TextColor3 = Color3.fromRGB(163, 163, 163)
+				TextLabel_2.TextSize = 11.000
+				local val
+				local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+				local uis = game:GetService("UserInputService")
+				local MIN = MIN or 0
+				local MAX = MAX or 100
+				local move
+				local ended
+				local scale = 127
+				TextButton.MouseButton1Down:Connect(function()
+					val = math.floor((((tonumber(MAX) - tonumber(MIN)) / scale) * Frame.AbsoluteSize.X) + tonumber(MIN)) or 0
+					TextLabel_2.Text = val
+					Frame.Size = UDim2.new(0,math.clamp(mouse.X - Frame.AbsolutePosition.X, 0 ,scale), 0, Frame.Size.Y.Offset)
+					move = mouse.Move:Connect(function()
+						val = math.floor((((tonumber(MAX) - tonumber(MIN)) / scale) * Frame.AbsoluteSize.X) + tonumber(MIN)) or 0
+						TextLabel_2.Text = val
+						Frame.Size = UDim2.new(0,math.clamp(mouse.X - Frame.AbsolutePosition.X, 0 ,scale), 0, Frame.Size.Y.Offset)
+					end)
+					ended = uis.InputEnded:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							TextLabel_2.Text = val
+							val = math.floor((((tonumber(MAX) - tonumber(MIN)) / scale) * Frame.AbsoluteSize.X) + tonumber(MIN)) or 0
+							Frame.Size = UDim2.new(0,math.clamp(mouse.X - Frame.AbsolutePosition.X, 0 ,scale), 0, Frame.Size.Y.Offset)
+							ended:Disconnect()
+							move:Disconnect()
+						end
+					end)
+				end)
+				local Properties = {}
+				function Properties:GetValue ()
+					return val
+				end
+				function Properties:SetValue (Value)
+					val = Value
+					TextLabel_2.Text = val
+				end
+				function Properties:SetMinMax (Min, Max)
+					MIN = Min or MIN
+					MAX = Max or MAX
+				end
+				function Properties:SetText (Text)
+					TextLabel.Text = Text or ""
+				end
+				function Properties:GetText ()
+					return TextLabel.Text
+				end
+				return Properties
+			end
+			function Object2:NewTextBox (TEXT)
+				local TextBox = Instance.new("Frame")
+				local TextLabel = Instance.new("TextLabel")
+				local TextBox_2 = Instance.new("TextBox")
+
+				TextBox.Name = "TextBox"
+				TextBox.Parent = Group
+				TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				TextBox.BackgroundTransparency = 1.000
+				TextBox.BorderSizePixel = 0
+				TextBox.Size = UDim2.new(0, 184, 0, 22)
+
+				TextLabel.Parent = TextBox
+				TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				TextLabel.BackgroundTransparency = 1.000
+				TextLabel.Position = UDim2.new(0.0597824417, 0, 0.0454545468, 0)
+				TextLabel.Size = UDim2.new(0, 121, 0, 19)
+				TextLabel.Font = Enum.Font.Code
+				TextLabel.Text = TEXT
+				TextLabel.TextColor3 = Color3.fromRGB(163, 163, 163)
+				TextLabel.TextSize = 12.000
+				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+				TextBox_2.Parent = TextBox
+				TextBox_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+				TextBox_2.BorderColor3 = Color3.fromRGB(52, 52, 52)
+				TextBox_2.ClipsDescendants = true
+				TextBox_2.Position = UDim2.new(0.760999978, 0, 0.0900000036, 0)
+				TextBox_2.Size = UDim2.new(0, 38, 0, 19)
+				TextBox_2.ClearTextOnFocus = false
+				TextBox_2.Font = Enum.Font.Code
+				TextBox_2.Text = ""
+				TextBox_2.TextColor3 = Color3.fromRGB(163, 163, 163)
+				TextBox_2.TextSize = 14.000
+				
+				local Properties = {}
+				
+				function Properties:SetText (Text)
+					TextLabel.Text = Text or ""
+				end
+				function Properties:GetText ()
+					return TextLabel.Text
+				end
+				function Properties:SetValue (Text)
+					TextBox_2.Text = Text
+				end
+				function Properties:GetValue ()
+					return TextBox_2.Text
+				end
+				
+				return Properties
+			end
+			function Object2:NewToggle (TEXT, FUNCTION)
+				local Toggle = Instance.new("Frame")
+				local TextButton = Instance.new("TextButton")
+				local TextLabel = Instance.new("TextLabel")
+
+				Toggle.Name = "Toggle"
+				Toggle.Parent = Group
+				Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Toggle.BackgroundTransparency = 1.000
+				Toggle.BorderSizePixel = 0
+				Toggle.Size = UDim2.new(0, 184, 0, 22)
+
+				TextButton.Parent = Toggle
+				TextButton.BackgroundColor3 = THEME["BackgroundColor"]
+				TextButton.BorderColor3 = Color3.fromRGB(94, 94, 94)
+				TextButton.Position = UDim2.new(0.0326086953, 0, 0.0454545468, 0)
+				TextButton.Size = UDim2.new(0, 19, 0, 19)
+				TextButton.Font = Enum.Font.SourceSans
+				TextButton.Text = ""
+				TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+				TextButton.TextSize = 14.000
+
+				TextLabel.Parent = Toggle
+				TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				TextLabel.BackgroundTransparency = 1.000
+				TextLabel.Position = UDim2.new(0.173913047, 0, 0.0454545468, 0)
+				TextLabel.Size = UDim2.new(0, 152, 0, 19)
+				TextLabel.Font = Enum.Font.Code
+				TextLabel.Text = TEXT
+				TextLabel.TextColor3 = Color3.fromRGB(163, 163, 163)
+				TextLabel.TextSize = 12.000
+				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+				local val = false
+				local tween
+				TextButton.MouseButton1Down:Connect(function()
+					if val == false then
+						val = true
+						if tween then
+							tween:Cancal()
+						end
+						tween = Tween:Create(TextButton,TweenInfo.new(.2),{BackgroundColor3 = THEME["MainColor"]}):Play()
+					else
+						val = false
+						if tween then
+							tween:Cancal()
+						end
+						tween = Tween:Create(TextButton,TweenInfo.new(.2),{BackgroundColor3 = THEME["BackgroundColor"]}):Play()
+					end
+					pcall(FUNCTION)
+				end)
+				local Properties = {}
+				function Properties:SetText (Text)
+					TextLabel.Text = Text or ""
+				end
+				function Properties:GetText ()
+					return TextLabel.Text
+				end
+				function Properties:SetValue (Bool)
+					val = Bool
+					if val == false then
+						val = true
+						if tween then
+							tween:Cancal()
+						end
+						tween = Tween:Create(TextButton,TweenInfo.new(.2),{BackgroundColor3 = THEME["MainColor"]}):Play()
+					else
+						val = false
+						if tween then
+							tween:Cancal()
+						end
+						tween = Tween:Create(TextButton,TweenInfo.new(.2),{BackgroundColor3 = THEME["BackgroundColor"]}):Play()
+					end
+				end
+				function Properties:GetValue ()
+					return val
+				end
+				return Properties
+			end
+			return Object2
+		end
+		return Properties
+	end
+	return Object
+end
+
+return libary
+
 
