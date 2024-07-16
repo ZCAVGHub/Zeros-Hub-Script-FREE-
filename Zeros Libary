@@ -51,7 +51,7 @@ function libary:Create (NAME,THEME)
 	Drag(MainContainer)
 
 	Libaryv2.Name = NAME or "Libary v2"	
-	Libaryv2.Parent = game.CoreGui
+	Libaryv2.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 	Libaryv2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 	MainContainer.Name = "MainContainer"
@@ -682,5 +682,4 @@ function libary:Create (NAME,THEME)
 end
 
 return libary
-
 
