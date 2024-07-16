@@ -1,4 +1,4 @@
--- 20.31
+--20.41
 local libary = {}
 
 function libary:Create (NAME,THEME)
@@ -96,6 +96,12 @@ function libary:Create (NAME,THEME)
 	UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 	local Object = {}
 	local Tween = game:GetService("TweenService")
+	function Object:SetParent (Parent)
+		if Parent then
+			Libaryv2.Parent = Parent
+		end
+		
+	end
 	function Object:SetTitle (TITLE)
 		TextLabel.Text = TITLE or "Title"
 	end
